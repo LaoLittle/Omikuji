@@ -6,11 +6,8 @@ import org.laolittle.plugin.omikuji.Json
 import org.laolittle.plugin.omikuji.Omikuji
 import org.laolittle.plugin.omikuji.OmikujiInfo
 import java.io.*
-import java.util.jar.JarFile
 
-var omkj: OmikujiInfo? = null
 var omikujiInfo: Map<Int, OmikujiInfo> = linkedMapOf()
-var userrandom: Map<Long, Long> = linkedMapOf()
 
 @ExperimentalSerializationApi
 fun decodeJson() {
@@ -34,10 +31,7 @@ fun encodeJson() {
 @ExperimentalSerializationApi
 @Throws(IOException::class)
 private fun selfReadText(): String {
-    val path = Omikuji.javaClass.protectionDomain.codeSource.location.path
-    val jarpath = JarFile(path)
-    val entry = jarpath.getJarEntry("data/omikuji.json")
-    val input = jarpath.getInputStream(entry)
+    val input = Omikuji.javaClass.getResourceAsStream("/data/omikuji.json")
     return if (input != null) {
         val writer: Writer = StringWriter()
         val buffer = CharArray(1024)
